@@ -26,9 +26,8 @@ public class AuthConfiguration {
 		http.csrf().disable()
 			.cors().disable()
 			.authorizeHttpRequests()
-//			.requestMatchers("/ingredients").hasAnyAuthority("USER","ADMIN")
 			.requestMatchers("/api/**").permitAll()
-	        .requestMatchers("/**").permitAll()
+	        .requestMatchers("/**").hasAnyAuthority("ADMIN")
 	        .and().formLogin()
 	        .and().logout()
 	        ;

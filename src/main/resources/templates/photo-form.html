@@ -1,0 +1,79 @@
+<!doctype html>
+<!-- html tag with Thymeleaf -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Bootstrap CSS -->
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}"/>
+	<title>[[${title}]]</title>
+</head>
+<body>
+	<div class="container">
+		<h1 class="text-center">
+			[[${title}]] Photo
+		</h1>
+		<div class="d-flex justify-content-center">
+			<form method="POST" th:object="${photo}">
+				<div>
+					<label for="title" class="form-label">insert title</label>
+					<input th:field="*{title}"
+						class="form-control"
+						type="text" name="title" id="title">
+					<div th:replace="fragments :: errorDiv('title')" />
+				</div>
+				
+				
+				<div>
+					<label for="description" class="form-label">insert desc</label>
+					<input th:field="*{description}"
+						class="form-control"
+						type="text" name="description" id="description">
+					<div th:replace="fragments :: errorDiv('description')" />
+				</div>
+				
+				<div>
+					<label for="url" class="form-label">insert url for pic</label>
+					<input th:field="*{url}"
+						class="form-control"
+						type="text" name="url" id="url">
+					<div th:replace="fragments :: errorDiv('url')" />
+				</div>
+				
+				<div>
+					<span>visible?</span>
+					<br>
+					<input type="radio" id="true" value="true">
+					<label for="true">yes</label>
+				 	<input type="radio" id="false" value="false">
+					<label for="false">no</label>
+				</div>
+				
+				<span>categories:</span>
+					<br>
+				<div
+					th:each="cats : ${categories}"
+					th:object="${cats}"
+				>	
+
+					<input 
+						type="checkbox"
+						th:id="${'cats-' + cats.id}" 
+						th:value="*{id}" 
+						th:field="${photo.categories}"
+					>
+					<label
+						th:for="${'cats-' + cats.id}"
+					>[[*{name}]]</label>
+					<br>
+				</div>	
+
+				<button class="btn btn-success my-4" type="submit">[[${title}]]</button>
+			</form>
+			
+		</div>
+		
+	</div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<!-- html tag with Thymeleaf -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Bootstrap CSS -->
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}"/>
+	<title>home</title>
+</head>
+<body>
+	
+	<main>
+		<a class="btn btn-danger"
+			th:href="@{/logout}">
+			logout
+		</a>
+		<a class="btn btn-primary"
+			th:href="@{/login}">
+			login
+		</a>
+		<h1 th:if="${photos.size() ==  0}">no photos found</h1>
+		<div class="container p-4" th:if="${photos.size() > 0}">
+			
+			<h1>
+				Pizzas:
+			</h1>
+			<table class="table border">
+			  <thead class="thead-dark">
+			    <tr>
+			      <th scope="col">ID</th>
+			      <th scope="col">title</th>
+			      <th scope="col">visible</th>
+			      <th scope="col">Description</th>
+			      <th scope="col">view</th>
+			      <th sec:authorize="hasAuthority('ADMIN')"
+			      	scope="col">edit</th>
+			      <th sec:authorize="hasAuthority('ADMIN')"
+			      	scope="col">delete</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr th:each="p : ${photos}">
+			      <th scope="row">[[${p.id}]]</th>
+			      <td>[[${p.title}]]</td>
+			      <td>[[${p.visible}]]</td>
+			      <td>[[${p.description}]]</td>
+			      <td><a class="btn btn-primary" th:href="@{/photo/{id} (id=${p.id})}">show photo</a></td>
+			      <td sec:authorize="hasAuthority('ADMIN')">
+			      	<a th:href="@{/update/photo/{id} (id=${p.id})}" class="btn btn-success">update</a>
+	      			</td>
+			      <td sec:authorize="hasAuthority('ADMIN')">
+					  <form 
+						th:action="@{/delete/photo/{id}(id=${p.id})}"
+						method="POST">
+					
+						<button type="submit" class="btn btn-danger">delete</button>	
+					</form>
+				  </td>
+			    </tr>
+			  </tbody>
+			</table>
+			
+			<form>
+			  <div class="mb-3">
+			    <label for="name" class="form-label">serch by name of pizza</label>
+			    <input th:value="${query}"
+			    	type="text" name="query" class="form-control" id="name" aria-describedby="name">
+			  </div>
+			  <button type="submit" class="btn btn-primary">Search</button>
+			</form>
+			
+			<a th:href="@{/create/photo}" class="btn btn-success">add photo</a>
+			<a th:href="@{/categories}" class="btn btn-success">see categories</a>
+		</div>
+
+	</main>
+</body>
+</html>

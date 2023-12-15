@@ -36,7 +36,7 @@ public class SpringIlMioFotoalbumApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception{
 		
-		Role admin = new Role("admin");
+		Role admin = new Role("ADMIN");
 		roleService.save(admin);
 		
 		Category cat1 = new Category("nature");
