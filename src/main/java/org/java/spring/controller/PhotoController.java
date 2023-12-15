@@ -2,11 +2,15 @@ package org.java.spring.controller;
 
 import java.util.List;
 
+import org.java.spring.auth.pojo.db.User;
+import org.java.spring.auth.pojo.serv.UserService;
 import org.java.spring.pojo.db.Category;
 import org.java.spring.pojo.db.Photo;
 import org.java.spring.pojo.serv.CategoryService;
 import org.java.spring.pojo.serv.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,15 +31,28 @@ public class PhotoController {
 	@Autowired
 	CategoryService catService;
 	
+	@Autowired
+	UserService userService;
+	
 	@GetMapping("/")
 	public String home(Model model,
 			@RequestParam(required = false) String query) {
 		
-		List<Photo> photos = query != null ? photoService.findByTitle(query) : photoService.findAll();
-		
-		model.addAttribute("photos",photos);
+//		List<Photo> photos = query != null ? photoService.findByTitle(query) : photoService.findAll();
+//		
+//		model.addAttribute("photos",photos);
 		model.addAttribute("query", query);
 		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        
+//        User user = userService.findByName(username);
+        
+        List<Photo> photos2 = query != null ? photoService.findByTitleAndUserName(username,query) 
+        		:photoService.findByUserName(username);
+        model.addAttribute("photos",photos2);
+         
+//		System.out.println(photoService.findVisiblePhotos());
 		return("home");
 	}
 	
@@ -44,9 +61,19 @@ public class PhotoController {
 		
 		Photo photo = photoService.findById(id);
 		
-		model.addAttribute("photo",photo);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        
+        if (photo != null) {
+            List<Photo> userPhotos = photoService.findByUserName(username);
+            if (userPhotos.contains(photo)) {
+                model.addAttribute("photo", photo);
+                return("single-photo");
+            }
+        }
+
 		
-		return("single-photo");
+        return "redirect:/";
 	}
 	
 	@GetMapping("/create/photo")
@@ -72,10 +99,12 @@ public class PhotoController {
 			model.addAttribute("photo", photo);
 			return "photo-form";
 		}
-		
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username = authentication.getName();
+//		User user =userService.findByName(username);
+		photo.setUser(getAuthUser());
 		photoService.save(photo);
 		
-//		System.out.println(photo);
 		return("redirect:/");
 	}
 	
@@ -86,10 +115,20 @@ public class PhotoController {
 		List<Category> categories = catService.findAll();
 		Photo photo = photoService.findById(id);
 		
-		model.addAttribute("title", title);
-		model.addAttribute("categories", categories);
-		model.addAttribute("photo", photo);
-		return("photo-form");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        
+        if (photo != null) {
+            List<Photo> userPhotos = photoService.findByUserName(username);
+            if (userPhotos.contains(photo)) {
+            	model.addAttribute("title", title);
+        		model.addAttribute("categories", categories);
+        		model.addAttribute("photo", photo);
+        		return("photo-form");
+            }
+        }
+		
+        return("redirect:/");
 	}
 	
 	@PostMapping("/update/photo/{id}")
@@ -102,6 +141,10 @@ public class PhotoController {
 			model.addAttribute("photo", photo);
 			return "photo-form";
 		}
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username = authentication.getName();
+//		User user =userService.findByName(username);
+		photo.setUser(getAuthUser());
 		
 		photoService.save(photo);
 		
@@ -116,5 +159,12 @@ public class PhotoController {
 		photoService.delete(p);
 		
 		return "redirect:/";
+	}
+	
+	private  User getAuthUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+		User user =userService.findByName(username);
+		return user;
 	}
 }

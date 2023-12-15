@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
+import org.java.spring.auth.pojo.db.User;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,6 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -41,14 +46,18 @@ public class Photo {
 	@ManyToMany
 	private List<Category> categories;
 	
+	@ManyToOne
+	private User user;
+	
 	public Photo() {}
 	
-	public Photo(String title, String url, String description, boolean visible, Category...categories) {
+	public Photo(String title, String url, String description, boolean visible, User user, Category...categories) {
 		setTitle(title);
 		setUrl(url);
 		setDescription(description);
 		setVisible(visible);
 		setCategories(categories);
+		setUser(user);
 	}
 
 	public Integer getId() {
@@ -90,15 +99,24 @@ public class Photo {
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-
+	
+	@JsonProperty
 	public List<Category> getCategories() {
 		return categories;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
-	
+	@JsonIgnore
 	public void setCategories(Category... categories) {
 		this.setCategories(Arrays.asList(categories));
 	}
