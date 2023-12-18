@@ -30,11 +30,11 @@
         <input type="text" v-model="title">
         <button @click="this.$emit('searchTitle',title,categoriesSelected)">search</button>
       </div>
-	  <div>
+	  <div class="p-2">
 		<label for="cars">select a category:</label>
 
 		<select name="categories" id="categories" v-model="categoriesSelected">
-			<option value="" disabled selected>categories</option>
+			<option value="" selected>none</option>
 			<option v-for="(cat, i) in categories" :key="i" :value="cat.name">
 			{{ cat.name }}
 			</option>

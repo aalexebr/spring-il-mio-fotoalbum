@@ -83,7 +83,7 @@ import axios from 'axios';
 			params.title = this.searchTitle.trim();
 			// this.currentPage = 0
 		}
-		if(this.searchCategory != null){
+		if(this.searchCategory != null  && this.searchCategory != ''){
 			params.names = this.searchCategory
 			console.log(params.names)
 		}

@@ -30,6 +30,10 @@
 
 <template>
 
+    <div v-if="photos == null">
+        ...loading
+    </div>
+
     <main v-if="photos != null">
         <div class="container">
             <div>
