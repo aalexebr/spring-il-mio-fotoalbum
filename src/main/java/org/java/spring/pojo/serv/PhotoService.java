@@ -22,6 +22,10 @@ public class PhotoService {
 		return photoRepo.findAll();
 	}
 	
+	public Page<Photo> findAllPaginated(Pageable pageable){
+		return photoRepo.findAll(pageable);
+	}
+	
 	public Photo findById(int id) {
 		return photoRepo.findById(id).orElse(null);
 	}

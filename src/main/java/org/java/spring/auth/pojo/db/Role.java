@@ -1,5 +1,9 @@
 package org.java.spring.auth.pojo.db;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +21,8 @@ public class Role {
 	private String name;
 	
 //	@ManyToMany(mappedBy="roles")
-//	private List<User> users;
+	@JsonIgnore
+	private List<User> users;
 	
 	public Role() {}
 	
@@ -41,6 +46,15 @@ public class Role {
 		this.name = name;
 	}
 	
+	
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
 	@Override
 	public String toString() {
 		

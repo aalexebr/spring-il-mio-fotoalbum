@@ -3,6 +3,7 @@ package org.java.spring.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.java.spring.auth.pojo.db.Role;
 import org.java.spring.auth.pojo.db.User;
 import org.java.spring.auth.pojo.serv.UserService;
 import org.java.spring.pojo.db.Category;
@@ -10,6 +11,9 @@ import org.java.spring.pojo.db.Photo;
 import org.java.spring.pojo.serv.CategoryService;
 import org.java.spring.pojo.serv.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -37,9 +41,17 @@ public class PhotoController {
 	
 	@GetMapping("/")
 	public String home(Model model,
-			@RequestParam(required = false) String query) {
+			@RequestParam(required = false) String query,
+			@RequestParam(defaultValue = "0") int page) {
 		
 		model.addAttribute("query", query);
+		User u = getAuthUser();
+		System.out.println(u.getRoles());
+		if(userHasRole(u,"SUPERADMIN")) {
+			
+			
+			return("redirect:/super");
+		}
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -164,10 +176,42 @@ public class PhotoController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("/super")
+	public String SuperAdminHome(Model model,
+			@RequestParam(defaultValue = "0") int page){
+		int pageSize = 3;
+		User u = getAuthUser();
+		Page<Photo> photos = photoService.findAllPaginated(PageRequest.of(page, pageSize));
+		model.addAttribute("photos", photos);
+		model.addAttribute("superadmin",u);
+		
+		return "super-admin-home";
+	}
+	
+	@PostMapping("/super/visible/{id}")
+	public String modVisibilty(Model model,@PathVariable int id) {
+		
+		Photo p = photoService.findById(id);
+		p.setVisible(!p.isVisible());
+		photoService.save(p);
+		return"redirect:/super";
+	}
+	
 	private  User getAuthUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 		User user =userService.findByName(username);
 		return user;
+	}
+	
+	private boolean userHasRole(User user, String roleName) {
+
+		for (Role role : user.getRoles()) {
+			if (role.getName().equals(roleName)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
