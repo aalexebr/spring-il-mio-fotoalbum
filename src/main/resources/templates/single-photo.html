@@ -13,6 +13,7 @@
 		<div class="container">
 			<a th:href="@{/}">home</a>
 			<a sec:authorize="hasAuthority('ADMIN')"
+				th:href="@{/update/photo/{id} (id=${p.id})}"
 				class="btn btn-primary">edit photo</a>
 			<h1>photo:</h1>
 			<div>

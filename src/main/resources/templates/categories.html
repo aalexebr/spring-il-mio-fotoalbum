@@ -20,19 +20,40 @@
 		<a th:href="@{/}">home</a>
 		<div th:if="${categories.size()>0}">
 			<h1>List of categries</h1>
-			<ul>
-				<li 
-					th:each="cat : ${categories}">
-					[[${cat.name}]]
-					<form method="POST"
+			
+			<table class="table border">
+			  <thead class="thead-dark">
+			    <tr>
+			      <th scope="col">ID</th>
+			      <th scope="col">name</th>
+			      <th 
+			      	scope="col">edit</th>
+			      <th
+			      	scope="col">delete</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr th:each="cat : ${categories}">
+			      <th scope="row">[[${cat.id}]]</th>
+			      <td>[[${cat.name}]]</td>
+			      <td>
+			      	<a th:href="@{update/category/{id}(id=${cat.id})}"
+						class="btn btn-primary">
+						update
+					</a>
+	      			</td>
+			      <td>
+					  <form method="POST"
 						th:action="@{/delete/category/{id} (id=${cat.id})}">
-						<button sec:authorize="hasAuthority('ADMIN')"
+						<button
 							type="submit" class="btn btn-danger">
 							delete
 						</button>
 					</form>
-				</li>
-			</ul>
+				  </td>
+			    </tr>
+			  </tbody>
+			</table>
 		</div>
 		
 	</div>

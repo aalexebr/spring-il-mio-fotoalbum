@@ -60,7 +60,8 @@ public class PhotoController {
         List<Photo> photos2 = query != null ? photoService.findByTitleAndUserName(username,query) 
         		:photoService.findByUserName(username);
         model.addAttribute("photos",photos2);
-         
+        
+        model.addAttribute("user",u);
 		return("home");
 	}
 	

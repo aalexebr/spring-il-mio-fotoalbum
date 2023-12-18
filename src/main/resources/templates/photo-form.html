@@ -11,6 +11,7 @@
 </head>
 <body>
 	<div class="container">
+		<a th:href="@{/}">home</a>
 		<h1 class="text-center">
 			[[${title}]] Photo
 		</h1>
@@ -41,14 +42,12 @@
 					<div th:replace="fragments :: errorDiv('url')" />
 				</div>
 				
-				<div>
-					<span>visible?</span>
-					<br>
-					<input type="radio" id="true" value="true" name="visible">
-					<label for="true">yes</label>
-				 	<input type="radio" id="false" value="false" name="visible">
-					<label for="false">no</label>
-				</div>
+				
+				<div class="form-check form-switch">
+                    <label for="visible">Visible</label>
+                    <input class="form-check-input" id="visible" type="checkbox" role="switch"
+                        th:checked="${photo.visible}" th:field="*{visible}">
+                </div>
 				
 				<span>categories:</span>
 					<br>

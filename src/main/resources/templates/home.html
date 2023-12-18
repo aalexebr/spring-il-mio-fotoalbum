@@ -12,11 +12,14 @@
 <body>
 	
 	<main>
-		<a class="btn btn-danger"
+		<a href="http://localhost:5173/" target="_blank">public webiste</a>
+		<a class="btn btn-danger ms-5"
 			th:href="@{/logout}">
 			logout
 		</a>
-
+		<h3 class="ms-5">
+			welcome [[${user.username}]]
+		</h3>
 		<h1 th:if="${photos.size() ==  0}">no photos found</h1>
 		<div class="container p-4" th:if="${photos.size() > 0}">
 			
@@ -34,7 +37,7 @@
 			<a th:href="@{/messages}" class="btn btn-success">see your messages</a>
 			
 			<h1>
-				Pizzas:
+				Photos
 			</h1>
 			<table class="table border">
 			  <thead class="thead-dark">

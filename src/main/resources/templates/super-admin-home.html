@@ -10,9 +10,20 @@
 	<title>superadminhome</title>
 </head>
 <body>
-	
+	<a href="http://localhost:5173/" target="_blank">public webiste</a>
+		
+		<a class="btn btn-danger ms-5"
+			th:href="@{/logout}">
+			logout
+		</a>
 	<main class="container py-5">
-		welcome superadmin: [[${superadmin.username}]]
+		
+		<h3>
+			welcome superadmin: [[${superadmin.username}]]
+		</h3>
+		
+		
+		<a th:href="@{/categories}" class="btn btn-success">see categories</a>
 		
 		<div th:if="${photos.number > 0 || photos.number != null}">
 		<form>

@@ -64,6 +64,40 @@ public class CategoryController {
 		return("redirect:/categories");
 	}
 	
+	@GetMapping("update/category/{id}")
+	public String updateCategory(Model model,
+			@PathVariable int id) {
+		Category c = catService.findById(id);
+		model.addAttribute("category", c);
+		return "category-form";
+	}
+	
+	@PostMapping("update/category/{id}")
+	public String updateCategory(Model model,
+			@PathVariable int id
+			,@Valid @ModelAttribute Category category,
+			BindingResult bindingResult) {
+		Category z = catService.findById(id);
+		
+		if (bindingResult.hasErrors()) {
+			
+			model.addAttribute("category", category);
+			return "category-form";
+		}
+		
+		try {
+			z.setName(category.getName());
+			catService.save(category);
+		} catch(Exception e) {
+			
+			bindingResult.addError(new FieldError("category", "name", category.getName(), false, null, null, "Name must be unique"));
+			model.addAttribute("category", category);
+			return "category-form";
+		}
+		
+		return("redirect:/categories");
+	}
+	
 	@PostMapping("/delete/category/{id}")
 	public String delete(@PathVariable int id) {
 		
