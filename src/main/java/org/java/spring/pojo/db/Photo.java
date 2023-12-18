@@ -37,7 +37,10 @@ public class Photo {
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	
-	@Column(columnDefinition = "TEXT")
+	@Column(columnDefinition = "TEXT",nullable = false)
+	@NotBlank(message = "url is mandatory")
+	@NotNull(message = "url cannot be null")
+	@NotEmpty(message = "url cannot be null")
 	private String url;
 	
 	@Column(columnDefinition = "BOOLEAN DEFAULT TRUE")

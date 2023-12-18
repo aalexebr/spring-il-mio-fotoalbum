@@ -16,9 +16,11 @@ import axios from 'axios';
 		contactUser:null,
 		openMessageForm:false,
 		searchTitle:"",
+		searchCategory:null,
 		categoriesAll:null,
 		openComponent:false,
-		selectedPhoto:null
+		selectedPhoto:null,
+		contactFlag:false
       }
     },
     components: {
@@ -73,14 +75,19 @@ import axios from 'axios';
     //         }
     //       )
     //   },
-	  getPhotosViaPage(string){
+	  getPhotosViaPage(string,category){
 		const params = { page: this.currentPage };
 		this.searchTitle = string
+		this.searchCategory = category
 		if (this.searchTitle && this.searchTitle.trim() !== "") {
 			params.title = this.searchTitle.trim();
 			// this.currentPage = 0
 		}
-        axios.get(`http://127.0.0.1:8080/api/index`,{params})
+		if(this.searchCategory != null){
+			params.names = this.searchCategory
+			console.log(params.names)
+		}
+        axios.get(`http://127.0.0.1:8080/api/search`,{params})
           .then(data=>{
             this.totPages = data.data.totalPages
             this.currentPage = data.data.pageable.pageNumber
@@ -89,7 +96,8 @@ import axios from 'axios';
           )
       },
 	  sendMessage(i){
-		// console.log("index", i)
+		console.log("user", this.contactUser = i)
+		this.contactFlag = true
 		this.contactUser = i
 	  },
     getPhotosByCategory(){
@@ -102,12 +110,13 @@ import axios from 'axios';
 
     },
 	openSinglePhoto(i){
-		// this.openComponent= true
+		this.openComponent= true
 		this.selectedPhoto = this.photos[i]
 		console.log(this.selectedPhoto)
 	},
 	closeComponents(){
-
+		this.openComponent = false
+		this.contactFlag = false
 	}
 
     },
@@ -121,13 +130,13 @@ import axios from 'axios';
 
 
 <template>
-	<header v-if="!openComponent">
+	<header v-if="!openComponent && !contactFlag">
 		<SearchBar :categories="categoriesAll"
 			@searchTitle="getPhotosViaPage"
 		/>
 	</header>
   
-	<template v-if="!openComponent">
+	<template v-if="!openComponent && !contactFlag">
 		<PhotoList :photos="photos"
 				:currentPage="currentPage"
 				:totPages="totPages"
@@ -137,9 +146,16 @@ import axios from 'axios';
 				@seePhoto="openSinglePhoto"
 			/>
 	</template>
-    <SinglePhoto :photo="selectedPhoto"/>
-	<MessageForm :artist="contactUser"
-	/>
+	<template v-if="openComponent && !contactFlag">
+		<SinglePhoto @back="closeComponents"
+			@contact="sendMessage"
+			:photo="selectedPhoto"/>
+	</template>
+    <template v-if="contactFlag">
+		<MessageForm :artist="contactUser"
+			@back="closeComponents"/>
+	</template>
+	
   
 </template>
 

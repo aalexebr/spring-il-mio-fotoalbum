@@ -10,7 +10,7 @@ import axios from 'axios';
             object: "",
             content:"",
             sender:"",
-            photoAuthor:"admin",
+            photoAuthor:this.artist,
         },
 		sentMessage:false
       }
@@ -64,7 +64,7 @@ import axios from 'axios';
 				</form>
 			</template>
             
-            <button @click="back">back</button>
+            <button @click="$emit('back')">back</button>
 		</div>
     </main>
 

@@ -15,17 +15,11 @@
 			method="POST">
 			<label for="name">insert name of category</label>
 			<input type="text" id="name" th:field="*{name}">
+			<div th:replace="fragments :: errorDiv('name')" />
 			<button class="btn btn-success" type="submit">
 				add
 			</button>
 		</form>
-		
-		<ul>
-			<li
-			th:each="err : ${#fields.allErrors()}"
-			th:text="${err}">
-			</li>
-		</ul>
 	</div>
 </body>
 </html>

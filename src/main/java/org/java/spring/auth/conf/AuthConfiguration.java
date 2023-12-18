@@ -27,7 +27,7 @@ public class AuthConfiguration {
 			.cors().disable()
 			.authorizeHttpRequests()
 			.requestMatchers("/api/**").permitAll()
-//	        .requestMatchers("/**").hasAnyAuthority("ADMIN")
+	        .requestMatchers("/**").hasAnyAuthority("ADMIN")
 	        .and().formLogin()
 	        .and().logout()
 	        ;

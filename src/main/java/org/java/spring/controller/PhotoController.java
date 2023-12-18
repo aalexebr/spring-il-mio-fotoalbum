@@ -90,9 +90,12 @@ public class PhotoController {
 			BindingResult bindingResult) {
 		
 		if (bindingResult.hasErrors()) {
-			
+			String title = "create";
+			List<Category> categories = catService.findAll();
 			System.out.println(bindingResult);
 			model.addAttribute("photo", photo);
+			model.addAttribute("title", title);
+			model.addAttribute("categories", categories);
 			return "photo-form";
 		}
 //		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -132,8 +135,12 @@ public class PhotoController {
 			BindingResult bindingResult) {
 		
 		if (bindingResult.hasErrors()) {
+			String title = "update";
+			List<Category> categories = catService.findAll();
 			
 			System.out.println(bindingResult);
+			model.addAttribute("title", title);
+    		model.addAttribute("categories", categories);
 			model.addAttribute("photo", photo);
 			return "photo-form";
 		}

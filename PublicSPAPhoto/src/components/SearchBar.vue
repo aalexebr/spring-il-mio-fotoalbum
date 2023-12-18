@@ -5,7 +5,7 @@
     data() {
       return{
         title:"",
-		categoriesSelected:{}
+		categoriesSelected:null
       }
     },
     methods: {
@@ -19,25 +19,7 @@
     props:{
       categories:Array
     },
-	computed : {
-		categoryIds() {
-      return this.categories.reduce((obj, cat) => {
-        obj[cat.id] = false; // Initialize with false
-        return obj;
-      }, {});
-    }
-  },
-  watch: {
-    // Watch for changes in the categoryIds and update categoriesSelected
-    categoryIds: {
-      handler(newVal) {
-        this.categoriesSelected = newVal;
-      },
-      immediate: true // Trigger the watch immediately to set the initial value
-    }
-  },
-    
-    
+ 
   }
 </script>
 
@@ -46,14 +28,19 @@
     <header class="container">
       <div>
         <input type="text" v-model="title">
-        <button @click="this.$emit('searchTitle',title)">search</button>
+        <button @click="this.$emit('searchTitle',title,categoriesSelected)">search</button>
       </div>
-	  <div v-for="(cat,i) in categories" :key="i">
-		<input v-model="categoriesSelected[i]"
-			type="checkbox" :id="`category-${cat.id}`" :value="cat.name" :name="cat.name">
-		<label :for="`category-${cat.id}`">{{ cat.name }}</label>
+	  <div>
+		<label for="cars">select a category:</label>
+
+		<select name="categories" id="categories" v-model="categoriesSelected">
+        <!-- <option disabled value="">Please select one</option> -->
+        <option v-for="(cat, i) in categories" :key="i" :value="cat.name">
+          {{ cat.name }}
+        </option>
+      </select>
 	  </div>
-        <button @click="test">click</button>
+        <!-- <button @click="test">click</button> -->
     </header>
 </template>
 

@@ -69,5 +69,8 @@
 
 
 <style lang="scss" scoped>
+img{
+    width: 75px;
+}
 
 </style>

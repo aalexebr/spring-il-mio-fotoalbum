@@ -22,7 +22,7 @@
 
 
 <template>
-	<div v-if="photo !=null" class="container">
+	<div v-if="photo !=null" class="container py-5 flex-column align-items-center">
 
 	
 		<div class="img">
@@ -40,7 +40,8 @@
 			by: {{ photo.user.username }}
 		</div>
 
-
+		<button @click="$emit('back')">back</button>
+		<button @click="$emit('contact',photo.user.username)">contact artist</button>
 	</div>
 	
 </template>
@@ -49,5 +50,8 @@
 
 <style lang="scss" scoped>
 @use '../assets/scss/variables.scss' as *;
+img{
+	width: 100px;
+}
 
 </style>

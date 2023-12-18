@@ -76,5 +76,45 @@ public class PhotoRestController {
 		 
 
 	 }
+	 
+	 @GetMapping("search")
+	 public ResponseEntity<Page<Photo>> x(@RequestParam(defaultValue = "0") int page,
+			 	@RequestParam(required=false) String title,
+	    		@RequestParam(required=false) String... names) {
+		 
+		 	if(title != null && names == null) {
+		 		 Pageable pageable = PageRequest.of(page, 3); 
+			        Page<Photo> visiblePhotos = photoService.getVisiblePhotos(title,pageable);
+			        return new ResponseEntity<>(visiblePhotos, HttpStatus.OK);
+		 	}
+		 		 
+		 	if(names != null && title == null) {
+		 		List<Category> categories = new ArrayList<Category>();
+		 		for(String n :names) {
+		 			Category c = catService.findByName(n);
+		 			categories.add(c);
+		 		}
+		 		Pageable pageable = PageRequest.of(page, 3); 
+		 		Page<Photo> photos = photoService.findByVisibleTrueAndCategoriesIn(pageable,categories);
+		 		return new ResponseEntity<>(photos, HttpStatus.OK);
+		 	}
+		 	
+		 	if(names != null && title != null) {
+		 		List<Category> categories = new ArrayList<Category>();
+		 		for(String n :names) {
+		 			Category c = catService.findByName(n);
+		 			categories.add(c);
+		 		}
+		 		Pageable pageable = PageRequest.of(page, 3); 
+		 		Page<Photo> photos = photoService.findByVisibleTrueAndTitleContainingAndCategoriesIn(pageable,title,categories);
+		 		return new ResponseEntity<>(photos, HttpStatus.OK);
+		 	}
+		 
+		 	Pageable pageable = PageRequest.of(page, 3); 
+	        Page<Photo> visiblePhotos = photoService.getVisiblePhotos(pageable);
+	        return new ResponseEntity<>(visiblePhotos, HttpStatus.OK);
+		 
+
+	 }
 
 }
