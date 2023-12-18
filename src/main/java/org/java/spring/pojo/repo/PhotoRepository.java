@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 public interface PhotoRepository extends JpaRepository<Photo, Integer>{
 	
 	List <Photo> findByTitleContaining(String x);
+	Page <Photo> findByTitleContaining(String x, Pageable pageable);
 	List <Photo> findByUserUsername(String username);
 	List <Photo> findByUser(User user);
 	List <Photo> findByVisibleTrue();

@@ -178,7 +178,17 @@ public class PhotoController {
 	
 	@GetMapping("/super")
 	public String SuperAdminHome(Model model,
-			@RequestParam(defaultValue = "0") int page){
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(required = false) String title){
+		
+		if(title != null) {
+			int pageSize = 100;
+			Page <Photo> photos = photoService.findByTitlePaginated(title,PageRequest.of(page, pageSize));
+			model.addAttribute("photos", photos);
+			User u = getAuthUser();
+			model.addAttribute("superadmin",u);
+			return "super-admin-home";
+		}
 		int pageSize = 3;
 		User u = getAuthUser();
 		Page<Photo> photos = photoService.findAllPaginated(PageRequest.of(page, pageSize));

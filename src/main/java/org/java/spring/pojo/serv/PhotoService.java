@@ -38,6 +38,10 @@ public class PhotoService {
 		return photoRepo.findByTitleContaining(title);
 	}
 	
+	public Page<Photo> findByTitlePaginated(String title,Pageable pageable){
+		return photoRepo.findByTitleContaining(title,pageable);
+	}
+	
 	public void delete(Photo photo) {
 		photoRepo.delete(photo);
 	}

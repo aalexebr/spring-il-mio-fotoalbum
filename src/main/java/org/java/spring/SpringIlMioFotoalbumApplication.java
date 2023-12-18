@@ -50,7 +50,7 @@ public class SpringIlMioFotoalbumApplication implements CommandLineRunner{
 		
 		User u = new User("admin1",pwsd,admin);
 		User u2 = new User("admin2",pwsd,admin);
-		User u3 = new User("admin3",pwsd,superadmin);
+		User u3 = new User("superadmin",pwsd,superadmin);
 		userService.save(u);
 		userService.save(u2);
 		userService.save(u3);
