@@ -1,8 +1,11 @@
 package org.java.spring.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.java.spring.pojo.db.Category;
 import org.java.spring.pojo.db.Photo;
+import org.java.spring.pojo.serv.CategoryService;
 import org.java.spring.pojo.serv.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,8 +25,11 @@ public class PhotoRestController {
 	@Autowired
 	PhotoService photoService;
 	
+	@Autowired
+	CategoryService catService;
+	
 	@GetMapping("all")
-	public ResponseEntity<List<Photo>> index(@RequestParam(required=false) String name){
+	public ResponseEntity<List<Photo>> index(@RequestParam(required=false) String title){
 		
 		List<Photo> photos = photoService.findVisiblePhotos();
 		
@@ -34,11 +40,41 @@ public class PhotoRestController {
 	}
 	
 	 @GetMapping("/index")
-	    public ResponseEntity<Page<Photo>> getVisiblePhotos(@RequestParam(defaultValue = "0") int page) {
+	    public ResponseEntity<Page<Photo>> getVisiblePhotos(@RequestParam(defaultValue = "0") int page,
+	    		@RequestParam(required=false) String title) {
+		 
+		 if(title != null) {
+			 Pageable pageable = PageRequest.of(page, 3); 
+		        Page<Photo> visiblePhotos = photoService.getVisiblePhotos(title,pageable);
+		        return new ResponseEntity<>(visiblePhotos, HttpStatus.OK);
+			 
+		 }
 		 
 		 	Pageable pageable = PageRequest.of(page, 3); 
 	        Page<Photo> visiblePhotos = photoService.getVisiblePhotos(pageable);
 	        return new ResponseEntity<>(visiblePhotos, HttpStatus.OK);
 	    }
+	 
+	 @GetMapping("search-by-category")
+	 public ResponseEntity<Page<Photo>> getByCat(@RequestParam(defaultValue = "0") int page,
+	    		@RequestParam(required=false) String... names) {
+		 		 
+		 	if(names != null) {
+		 		List<Category> categories = new ArrayList<Category>();
+		 		for(String n :names) {
+		 			Category c = catService.findByName(n);
+		 			categories.add(c);
+		 		}
+		 		Pageable pageable = PageRequest.of(page, 3); 
+		 		Page<Photo> photos = photoService.findByVisibleTrueAndCategoriesIn(pageable,categories);
+		 		return new ResponseEntity<>(photos, HttpStatus.OK);
+		 	}
+		 
+		 	Pageable pageable = PageRequest.of(page, 3); 
+	        Page<Photo> visiblePhotos = photoService.getVisiblePhotos(pageable);
+	        return new ResponseEntity<>(visiblePhotos, HttpStatus.OK);
+		 
+
+	 }
 
 }

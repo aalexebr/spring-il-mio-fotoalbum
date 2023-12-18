@@ -1,5 +1,6 @@
 package org.java.spring.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.java.spring.auth.pojo.db.User;
@@ -38,21 +39,16 @@ public class PhotoController {
 	public String home(Model model,
 			@RequestParam(required = false) String query) {
 		
-//		List<Photo> photos = query != null ? photoService.findByTitle(query) : photoService.findAll();
-//		
-//		model.addAttribute("photos",photos);
 		model.addAttribute("query", query);
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         
-//        User user = userService.findByName(username);
         
         List<Photo> photos2 = query != null ? photoService.findByTitleAndUserName(username,query) 
         		:photoService.findByUserName(username);
         model.addAttribute("photos",photos2);
          
-//		System.out.println(photoService.findVisiblePhotos());
 		return("home");
 	}
 	

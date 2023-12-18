@@ -21,7 +21,6 @@ public class Category {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonIgnore
 	private Integer id;
 	
 	@Column(nullable = false, unique = true, length = 32)

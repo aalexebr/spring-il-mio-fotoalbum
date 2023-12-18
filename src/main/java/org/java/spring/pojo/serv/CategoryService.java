@@ -22,6 +22,9 @@ public class CategoryService {
 		return categoryRepo.findById(id).orElse(null);
 	}
 	
+	public Category findByName(String name) {
+		return categoryRepo.findByName(name);
+	}
 	
 	public void save(Category category) {
 		categoryRepo.save(category);

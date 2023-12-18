@@ -4,17 +4,17 @@
    export default {
     data() {
       return{
-        //dati
+        
       }
     },
     methods: {
-        //function
+        
     },
     components: {
-        //dichiarazione
+     
     },
     props:{
-        //utilizzo per file padre
+      
     }
     
     
@@ -25,7 +25,7 @@
 <template>
 
     <main>
-        <router-view></router-view>
+       
 
     </main>
 

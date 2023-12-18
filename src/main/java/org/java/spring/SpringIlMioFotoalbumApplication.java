@@ -43,6 +43,8 @@ public class SpringIlMioFotoalbumApplication implements CommandLineRunner{
 		
 		Role admin = new Role("ADMIN");
 		roleService.save(admin);
+		Role superadmin = new Role("SUPERADMIN");
+		roleService.save(superadmin);
 		
 		String pwsd = AuthConfiguration.passwordEncoder().encode("pswd");
 		
@@ -50,22 +52,24 @@ public class SpringIlMioFotoalbumApplication implements CommandLineRunner{
 		userService.save(u);
 		
 		Message m = new Message("content","sender",u);
+		Message m2 = new Message("object1","content","sender",u);
 		messService.save(m);
+		messService.save(m2);
 		
 		Category cat1 = new Category("nature");
 		Category cat2 = new Category("portrait");
 		catService.save(cat1);
 		catService.save(cat2);
 		
-		Photo p1 = new Photo("t11","url","desc",true,u,cat1,cat2);
-		Photo p2 = new Photo("t2","url","desc",true,u,cat1,cat2);
-		Photo p3 = new Photo("t3","url","desc",true,u,cat1,cat2);
-		Photo p4 = new Photo("t4","url","desc",true,u,cat1,cat2);
-		Photo p5 = new Photo("t5","url","desc",true,u,cat1,cat2);
-		Photo p6 = new Photo("t6","url","desc",true,u,cat1,cat2);
+		Photo p1 = new Photo("t1","url","desc",true,u,cat1,cat2);
+		Photo p2 = new Photo("t2","url","desc",true,u,cat2);
+		Photo p3 = new Photo("t3","url","desc",true,u,cat1);
+		Photo p4 = new Photo("t4","url","desc",true,u,cat1);
+		Photo p5 = new Photo("t5","url","desc",true,u,cat1);
+		Photo p6 = new Photo("t6","url","desc",true,u,cat1);
 		Photo p7 = new Photo("t7","url","desc",true,u,cat1,cat2);
 		Photo p8 = new Photo("t8","url","desc",true,u,cat1,cat2);
-		Photo p9 = new Photo("t9","url","descr",false,u,cat1);
+		Photo p9 = new Photo("t9","url","descr",false,u,cat1,cat2);
 		photoService.save(p1);
 		photoService.save(p2);
 		photoService.save(p3);

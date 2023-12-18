@@ -16,12 +16,22 @@
 			th:href="@{/logout}">
 			logout
 		</a>
-		<a class="btn btn-primary"
-			th:href="@{/login}">
-			login
-		</a>
+
 		<h1 th:if="${photos.size() ==  0}">no photos found</h1>
 		<div class="container p-4" th:if="${photos.size() > 0}">
+			
+			<form>
+			  <div class="mb-3">
+			    <label for="name" class="form-label">serch by name of pizza</label>
+			    <input th:value="${query}"
+			    	type="text" name="query" class="form-control" id="name" aria-describedby="name">
+			  </div>
+			  <button type="submit" class="btn btn-primary mb-4">Search</button>
+			</form>
+			
+			<a th:href="@{/create/photo}" class="btn btn-success">add photo</a>
+			<a th:href="@{/categories}" class="btn btn-success">see categories</a>
+			<a th:href="@{/messages}" class="btn btn-success">see your messages</a>
 			
 			<h1>
 				Pizzas:
@@ -62,17 +72,6 @@
 			  </tbody>
 			</table>
 			
-			<form>
-			  <div class="mb-3">
-			    <label for="name" class="form-label">serch by name of pizza</label>
-			    <input th:value="${query}"
-			    	type="text" name="query" class="form-control" id="name" aria-describedby="name">
-			  </div>
-			  <button type="submit" class="btn btn-primary">Search</button>
-			</form>
-			
-			<a th:href="@{/create/photo}" class="btn btn-success">add photo</a>
-			<a th:href="@{/categories}" class="btn btn-success">see categories</a>
 		</div>
 
 	</main>

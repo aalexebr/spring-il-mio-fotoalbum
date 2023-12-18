@@ -29,5 +29,13 @@ public class MessageService {
 	public List<Message> findBySender(String sender){
 		return messRepo.findBySenderName(sender);
 	}
+	
+	public List<Message> findByUserAndSender(User user,String sender){
+		return messRepo.findByUserAndSenderNameContainingIgnoreCase(user,sender);
+	}
+	
+	public Message findByUserAndId(User user, int id) {
+		return messRepo.findByUserAndId(user, id);
+	}
 
 }

@@ -27,15 +27,19 @@ public class Message {
 	
 	private String senderName;
 	
+	private boolean read_mess;
+	
 	@ManyToOne
 	private User user;
 	
 	public Message() {}
 	
+	
 	public Message( String content, String sender, User user) {
 		setContent(content);
 		setUser(user);
 		setSenderName(sender);
+		setRead_mess(false);
 	}
 	
 	public Message(String object, String content, String sender, User user) {
@@ -43,6 +47,7 @@ public class Message {
 		setContent(content);
 		setUser(user);
 		setSenderName(sender);
+		setRead_mess(false);
 	}
 
 	public int getId() {
@@ -84,6 +89,16 @@ public class Message {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public boolean isRead_mess() {
+		return read_mess;
+	}
+
+
+	public void setRead_mess(boolean read_mess) {
+		this.read_mess = read_mess;
+	}
+
 
 	@Override
 	public String toString() {

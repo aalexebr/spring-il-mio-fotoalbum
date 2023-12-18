@@ -3,6 +3,8 @@ package org.java.spring.pojo.serv;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.java.spring.auth.pojo.db.User;
+import org.java.spring.pojo.db.Category;
 import org.java.spring.pojo.db.Photo;
 import org.java.spring.pojo.repo.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,5 +69,25 @@ public class PhotoService {
 	public Page<Photo> getVisiblePhotos(Pageable pageable) {
         return photoRepo.findByVisibleTrue(pageable);
     }
+	
+	public Page<Photo> getVisiblePhotos(String title, Pageable pageable) {
+        return photoRepo.findByVisibleTrueAndTitleContaining(title,pageable);
+    }
+	
+	public List<Photo> findAllPhotoByCategories(List<Category> categories){
+		return photoRepo.findByCategoriesIn(categories);
+	}
+	
+	public List<Photo> findByUserAndCategoriesIn(User user, List<Category> categories){
+		return photoRepo.findByUserAndCategoriesIn(user, categories);
+	}
+	
+	public Page<Photo> findByVisibleTrueAndCategoriesIn(Pageable pageable,List<Category> categories){
+		return photoRepo.findByVisibleTrueAndCategoriesIn(pageable, categories);
+	}
+	
+	public Page<Photo> findByVisibleTrueAndTitleContainingAndCategoriesIn(Pageable pageable,String name,List<Category> categories){
+		return photoRepo.findByVisibleTrueAndTitleContainingAndCategoriesIn(pageable, name, categories);
+	}
 
 }
