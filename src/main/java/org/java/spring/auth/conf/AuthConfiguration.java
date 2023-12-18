@@ -28,6 +28,7 @@ public class AuthConfiguration {
 			.authorizeHttpRequests()
 			.requestMatchers("/api/**").permitAll()
 			.requestMatchers("/super").hasAnyAuthority("SUPERADMIN")
+			.requestMatchers("/super/**").hasAnyAuthority("SUPERADMIN")
 	        .requestMatchers("/**").hasAnyAuthority("ADMIN","SUPERADMIN")
 	        .and().formLogin()
 	        .and().logout()

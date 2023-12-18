@@ -65,15 +65,17 @@ public class SpringIlMioFotoalbumApplication implements CommandLineRunner{
 		catService.save(cat1);
 		catService.save(cat2);
 		
-		Photo p1 = new Photo("t1","https://picsum.photos/300?random=1","desc",true,u,cat1,cat2);
-		Photo p2 = new Photo("t2","https://picsum.photos/300?random=1","desc",true,u,cat2);
-		Photo p3 = new Photo("t3","https://picsum.photos/300?random=1","desc",true,u,cat1);
-		Photo p4 = new Photo("t4","https://picsum.photos/300?random=1","desc",true,u,cat1);
-		Photo p5 = new Photo("t5","https://picsum.photos/300?random=1","desc",true,u,cat1);
-		Photo p6 = new Photo("t6","https://picsum.photos/300?random=1","desc",true,u2,cat1);
-		Photo p7 = new Photo("t7","https://picsum.photos/300?random=1","desc",true,u2,cat1,cat2);
-		Photo p8 = new Photo("t8","https://picsum.photos/300?random=1","desc",true,u2,cat1,cat2);
-		Photo p9 = new Photo("t9","https://picsum.photos/300?random=1","descr",false,u2,cat1,cat2);
+		int n = 1;
+		
+		Photo p1 = new Photo("t1","https://picsum.photos/300?random="+n,"desc",true,u,cat1,cat2);
+		Photo p2 = new Photo("t2","https://picsum.photos/300?random="+(n+=1),"desc",true,u,cat2);
+		Photo p3 = new Photo("t3","https://picsum.photos/300?random="+(n+=1),"desc",true,u,cat1);
+		Photo p4 = new Photo("t4","https://picsum.photos/300?random="+(n+=1),"desc",true,u,cat1);
+		Photo p5 = new Photo("t5","https://picsum.photos/300?random="+(n+=1),"desc",true,u,cat1);
+		Photo p6 = new Photo("t6","https://picsum.photos/300?random="+(n+=1),"desc",true,u2,cat1);
+		Photo p7 = new Photo("t7","https://picsum.photos/300?random="+(n+=1),"desc",true,u2,cat2);
+		Photo p8 = new Photo("t8","https://picsum.photos/300?random="+(n+=1),"desc",true,u2,cat2);
+		Photo p9 = new Photo("t9","https://picsum.photos/300?random="+(n+=1),"descr",false,u2,cat2);
 		photoService.save(p1);
 		photoService.save(p2);
 		photoService.save(p3);

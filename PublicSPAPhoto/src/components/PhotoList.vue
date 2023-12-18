@@ -31,9 +31,19 @@
 <template>
 
     <main v-if="photos != null">
-        <div class="container py-5">
-            current page: {{ currentPage+1 }} total pages:{{ totPages }}
-            <div class="row">
+        <div class="container">
+            <div>
+                <div class="border d-inline-block p-1 m-1">
+                    current page: {{ currentPage+1 }} 
+                </div>
+                <div class="border d-inline-block p-1 m-1">
+                    total pages:{{ totPages }}
+                </div>
+            </div>
+            <button class="btn btn-primary mx-2" @click="$emit('prevPage')">prev</button>
+            <button class="btn btn-primary mx-2" @click="$emit('nextPage')">next</button>
+            
+            <div class="row mt-3">
                 <div v-for="(photo, i) in photos" :key="i"
                     class="col-3">
                     <div class="card">
@@ -43,23 +53,12 @@
                         <div>
                            title: {{ photo.title }}
                         </div>
-                        <!-- <p>
-                            description:
-                            <br>
-                            {{ photo.description }}
-                        </p>
-                        <div>
-                            by: {{ photo.user.username }}
-                        </div> -->
-
-                        <!-- {{ i }} -->
+                        <button class="btn btn-success" @click="$emit('seePhoto',i)">view</button>
                     </div>
-                    <button @click="$emit('contact',photo.user.username)">contact artist</button>
-                    <button @click="$emit('seePhoto',i)">view</button>
+                    
                 </div>
             </div>
-            <button @click="$emit('nextPage')">next</button>
-            <button @click="$emit('prevPage')">prev</button>
+            
         </div>
     </main>
 

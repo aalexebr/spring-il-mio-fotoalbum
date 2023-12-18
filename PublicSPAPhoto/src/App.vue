@@ -51,18 +51,18 @@ import axios from 'axios';
       nextPage(){
         if(this.currentPage < this.totPages-1){
 			this.currentPage++
-			this.getPhotosViaPage(this.searchTitle)
+			this.getPhotosViaPage(this.searchTitle, this.searchCategory)
 			// console.log("currrent",this.currentPage++)
 			return
         }
 		this.currentPage=0
-		this.getPhotosViaPage(this.searchTitle)
+		this.getPhotosViaPage(this.searchTitle,this.searchCategory)
       },
 	  prevPage(){
 		if(this.currentPage >= 1){
 			this.currentPage--
 			// console.log("currrent",this.currentPage)
-			this.getPhotosViaPage(this.searchTitle)
+			this.getPhotosViaPage(this.searchTitle,this.searchCategory)
 		  } 
     },
     //   getPhotosViaPage(){
@@ -140,7 +140,6 @@ import axios from 'axios';
 		<PhotoList :photos="photos"
 				:currentPage="currentPage"
 				:totPages="totPages"
-				@contact="sendMessage"
 				@nextPage="nextPage"
 				@prevPage="prevPage"
 				@seePhoto="openSinglePhoto"

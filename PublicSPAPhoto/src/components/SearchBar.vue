@@ -25,7 +25,7 @@
 
 
 <template>
-    <header class="container">
+    <header class="container py-5">
       <div>
         <input type="text" v-model="title">
         <button @click="this.$emit('searchTitle',title,categoriesSelected)">search</button>
@@ -34,13 +34,14 @@
 		<label for="cars">select a category:</label>
 
 		<select name="categories" id="categories" v-model="categoriesSelected">
-        <!-- <option disabled value="">Please select one</option> -->
-        <option v-for="(cat, i) in categories" :key="i" :value="cat.name">
-          {{ cat.name }}
-        </option>
-      </select>
+			<option value="" disabled selected>categories</option>
+			<option v-for="(cat, i) in categories" :key="i" :value="cat.name">
+			{{ cat.name }}
+			</option>
+        </select>
 	  </div>
-        <!-- <button @click="test">click</button> -->
+
+
     </header>
 </template>
 
