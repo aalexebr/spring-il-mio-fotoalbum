@@ -131,7 +131,9 @@ import axios from 'axios';
 
 <template>
 
-	<a href="http://127.0.0.1:8080/login" target="_blank">loginadmin</a>
+	<a href="http://127.0.0.1:8080/register" target="_blank">register</a>
+	<br>
+	<a href="http://127.0.0.1:8080/login" target="_blank">login</a>
 	<header v-if="!openComponent && !contactFlag">
 		<SearchBar :categories="categoriesAll"
 			@searchTitle="getPhotosViaPage"

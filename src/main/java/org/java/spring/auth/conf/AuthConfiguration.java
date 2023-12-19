@@ -26,6 +26,7 @@ public class AuthConfiguration {
 		http.csrf().disable()
 			.cors().disable()
 			.authorizeHttpRequests()
+			.requestMatchers("/register").permitAll()
 			.requestMatchers("/api/**").permitAll()
 			.requestMatchers("/super").hasAnyAuthority("SUPERADMIN")
 			.requestMatchers("/super/**").hasAnyAuthority("SUPERADMIN")

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.validator.constraints.Length;
 import org.java.spring.pojo.db.Message;
 import org.java.spring.pojo.db.Photo;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,6 +23,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 
 @Entity
@@ -32,10 +36,17 @@ public class User implements UserDetails{
 	@JsonIgnore
 	private int id;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
+	@NotBlank(message = "username is mandatory")
+	@NotNull(message = "username cannot be null")
+	@NotEmpty(message = "usernamae cannot be null")
+	@Length(min = 3 ,max = 16, message = "username must be max 16 chars")
 	private String username;
 	
 	@Column(nullable = false)
+	@NotBlank(message = "pswd is mandatory")
+	@NotNull(message = "pswd cannot be null")
+	@NotEmpty(message = "pswd cannot be null")
 	@JsonIgnore
 	private String password;
 	
