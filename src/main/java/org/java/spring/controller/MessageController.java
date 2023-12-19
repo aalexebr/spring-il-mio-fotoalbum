@@ -47,11 +47,14 @@ public class MessageController {
 		String username = userDetails.getUsername();
 		User user = userService.findByName(username);
 		Message mess = messService.findByUserAndId(user, id);
-		model.addAttribute("message", mess);
+		if(mess != null) {
+			model.addAttribute("message", mess);
 		
 		mess.setRead_mess(true);
 		messService.save(mess);
 		return("single-message");
+		}
+		return "redirect:/messages";
 	}
 	
 	@PostMapping("/message/delete/{id}")
